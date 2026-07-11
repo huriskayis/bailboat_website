@@ -1,0 +1,140 @@
+export type Product = {
+  slug: string;
+  name: string;
+  windTr: string;      // Turkish compass name label
+  windDir: string;     // short direction, e.g. "KD"
+  klass: string;       // model class line
+  lengthM: string;     // overall length placeholder
+  priceCents: number;  // placeholder price in EUR cents
+  tagline: string;
+  description: string;  // lorem ipsum placeholder
+  specs: { label: string; value: string }[];
+};
+
+const lorem =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod " +
+  "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+  "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu " +
+  "fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in " +
+  "culpa qui officia deserunt mollit anim id est laborum.";
+
+const baseSpecs = (l: string) => [
+  { label: "Tam Boy", value: l },
+  { label: "Genişlik", value: "— m" },
+  { label: "Su Çekimi", value: "— m" },
+  { label: "Yelken Alanı", value: "— m²" },
+  { label: "Deplasman", value: "— t" },
+  { label: "Tekne Malzemesi", value: "El yatırması kompozit" },
+];
+
+export const products: Product[] = [
+  {
+    slug: "poyraz",
+    name: "Poyraz",
+    windTr: "Kuzeydoğu",
+    windDir: "KD",
+    klass: "Performans Serisi",
+    lengthM: "18,4 m",
+    priceCents: 34500000,
+    tagline: "Sert rüzgârlar için doğmuş bir yelkenli.",
+    description: lorem,
+    specs: baseSpecs("18,4 m"),
+  },
+  {
+    slug: "yildiz",
+    name: "Yıldız",
+    windTr: "Kuzey",
+    windDir: "K",
+    klass: "Amiral Serisi",
+    lengthM: "22,1 m",
+    priceCents: 52000000,
+    tagline: "Kuzey yıldızına yönelen amiral tekne.",
+    description: lorem,
+    specs: baseSpecs("22,1 m"),
+  },
+  {
+    slug: "karayel",
+    name: "Karayel",
+    windTr: "Kuzeybatı",
+    windDir: "KB",
+    klass: "Performans Serisi",
+    lengthM: "16,8 m",
+    priceCents: 29800000,
+    tagline: "Çevik, keskin, hırçın sulara hazır.",
+    description: lorem,
+    specs: baseSpecs("16,8 m"),
+  },
+  {
+    slug: "lodos",
+    name: "Lodos",
+    windTr: "Güneybatı",
+    windDir: "GB",
+    klass: "Seyir Serisi",
+    lengthM: "19,6 m",
+    priceCents: 38500000,
+    tagline: "Uzun seyirler için ılık, dingin bir denge.",
+    description: lorem,
+    specs: baseSpecs("19,6 m"),
+  },
+  {
+    slug: "kible",
+    name: "Kıble",
+    windTr: "Güney",
+    windDir: "G",
+    klass: "Seyir Serisi",
+    lengthM: "20,3 m",
+    priceCents: 41200000,
+    tagline: "Güneye açılan sabırlı bir gezgin.",
+    description: lorem,
+    specs: baseSpecs("20,3 m"),
+  },
+  {
+    slug: "gundogusu",
+    name: "Gündoğusu",
+    windTr: "Doğu",
+    windDir: "D",
+    klass: "Performans Serisi",
+    lengthM: "17,2 m",
+    priceCents: 31600000,
+    tagline: "Gün doğarken ufka ilk ulaşan.",
+    description: lorem,
+    specs: baseSpecs("17,2 m"),
+  },
+  {
+    slug: "kesisleme",
+    name: "Keşişleme",
+    windTr: "Güneydoğu",
+    windDir: "GD",
+    klass: "Seyir Serisi",
+    lengthM: "21,0 m",
+    priceCents: 44800000,
+    tagline: "Sıcak sulara nazik bir yönelme.",
+    description: lorem,
+    specs: baseSpecs("21,0 m"),
+  },
+  {
+    slug: "meltem",
+    name: "Meltem",
+    windTr: "Yaz Esintisi",
+    windDir: "—",
+    klass: "Zarafet Serisi",
+    lengthM: "15,4 m",
+    priceCents: 26900000,
+    tagline: "Yaz akşamlarının hafif, zarif esintisi.",
+    description: lorem,
+    specs: baseSpecs("15,4 m"),
+  },
+];
+
+export function getProduct(slug: string): Product | undefined {
+  return products.find((p) => p.slug === slug);
+}
+
+export function formatPrice(cents: number): string {
+  return new Intl.NumberFormat("tr-TR", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(cents / 100);
+}
