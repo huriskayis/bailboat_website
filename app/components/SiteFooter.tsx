@@ -25,7 +25,7 @@ export default function SiteFooter() {
           <div>
             <p className="site-footer__head">Atölye</p>
             <span>Denizli, Türkiye</span>
-            <a href="mailto:atolye@vela.example">email@example.com</a>
+            <a href="mailto:info@velayembotu.com">info@velayembotu.com</a>
           </div>
         </div>
       </div>

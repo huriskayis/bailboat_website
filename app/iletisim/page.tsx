@@ -18,7 +18,7 @@ export default function IletisimPage() {
           </p>
           <div className="contact__detail">
             <p><span>Atölye</span>Denizli, Türkiye</p>
-            <p><span>E-posta</span>atolye.vela@example.com</p>
+            <p><span>E-posta</span>info@velayembotu.com</p>
             <p><span>Telefon</span>+90 000 000 00 00</p>
           </div>
         </div>
