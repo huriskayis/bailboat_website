@@ -14,7 +14,7 @@ export default function HomePage() {
           <h1 className="hero__title">
             Rüzgârın adını taşıyan
             <br />
-            yelkenliler
+            yem botları
           </h1>
           <hr className="rule hero__rule" />
           <p className="hero__lead">

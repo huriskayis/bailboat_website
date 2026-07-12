@@ -1,10 +1,22 @@
+import Image from "next/image";
+
 export default function ImagePanel({
   label,
   tall = false,
+  src,
 }: {
   label: string;
   tall?: boolean;
+  src?: string;
 }) {
+  if (src) {
+    return (
+      <div className={`imgpanel ${tall ? "imgpanel--tall" : ""}`}>
+        <Image src={src} alt={label} fill style={{ objectFit: "cover" }} />
+      </div>
+    );
+  }
+
   return (
     <div className={`imgpanel ${tall ? "imgpanel--tall" : ""}`} aria-hidden="true">
       <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" className="imgpanel__svg">

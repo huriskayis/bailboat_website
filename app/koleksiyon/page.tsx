@@ -3,7 +3,7 @@ import ProductCard from "../components/ProductCard";
 
 export const metadata = {
   title: "Koleksiyon — VELA Atölye",
-  description: "Rüzgârların adını taşıyan el yapımı yelkenliler.",
+  description: "Rüzgârların adını taşıyan el yapımı yem botları.",
 };
 
 export default function KoleksiyonPage() {

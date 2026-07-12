@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, products, formatPrice } from "@/lib/products";
 import ImagePanel from "../../components/ImagePanel";
+import MediaCarousel from "../../components/MediaCarousel";
 import BuyButton from "../../components/BuyButton";
 import WindMark from "../../components/WindMark";
 
@@ -56,7 +57,11 @@ export default async function ProductPage({
 
         <div className="detail__grid">
           <div className="detail__media">
-            <ImagePanel label={p.name} tall />
+            {p.media ? (
+              <MediaCarousel items={p.media} label={p.name} tall />
+            ) : (
+              <ImagePanel label={p.name} tall />
+            )}
           </div>
 
           <div className="detail__info">

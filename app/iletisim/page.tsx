@@ -17,9 +17,9 @@ export default function IletisimPage() {
             bize birkaç satır bırakın. Ustalarımız size dönecek.
           </p>
           <div className="contact__detail">
-            <p><span>Atölye</span>Tersane Caddesi No. 1, Bodrum</p>
-            <p><span>E-posta</span>atolye@vela.example</p>
-            <p><span>Telefon</span>+90 252 000 00 00</p>
+            <p><span>Atölye</span>Denizli, Türkiye</p>
+            <p><span>E-posta</span>atolye.vela@example.com</p>
+            <p><span>Telefon</span>+90 000 000 00 00</p>
           </div>
         </div>
         <div className="contact__form-wrap">

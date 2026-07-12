@@ -7,6 +7,7 @@ const nav = [
   { href: "/", label: "Anasayfa" },
   { href: "/koleksiyon", label: "Koleksiyon" },
   { href: "/atolye", label: "Atölye" },
+  { href: "/sss", label: "SSS" },
   { href: "/iletisim", label: "İletişim" },
 ];
 

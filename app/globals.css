@@ -313,6 +313,34 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
+   MEDIA CAROUSEL
+   ============================================================ */
+.carousel { position: relative; }
+.carousel__prev,
+.carousel__next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(12, 27, 38, 0.55); border: 1px solid var(--hull-3);
+  color: var(--bone); font-size: 1.9rem; line-height: 1;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.25s ease;
+}
+.carousel__prev { left: 12px; }
+.carousel__next { right: 12px; }
+.carousel__prev:hover,
+.carousel__next:hover { background: rgba(12, 27, 38, 0.88); }
+.carousel__dots {
+  display: flex; justify-content: center; gap: 8px; margin-top: 14px;
+}
+.carousel__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--bone-line); border: 0; cursor: pointer; padding: 0;
+  transition: background 0.25s ease;
+}
+.carousel__dot.is-active { background: var(--brass); }
+
+/* ============================================================
    PAGE SCAFFOLD
    ============================================================ */
 .page { padding: 170px 0 7rem; background: var(--bone); }
@@ -426,6 +454,56 @@ h1, h2, h3, h4 {
 .contact-form__foot { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
 .form-done { padding: 2rem 0; }
 .form-done__text { font-family: var(--font-display), serif; font-size: 1.5rem; color: var(--ink); margin: 1rem 0 1.6rem; max-width: 34ch; }
+
+/* ============================================================
+   WHATSAPP BUTTON
+   ============================================================ */
+.wa-btn {
+  position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 100;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.wa-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-list { margin: 0; padding: 0; max-width: 780px; }
+.faq-item {
+  border-bottom: 1px solid var(--bone-line);
+  list-style: none;
+}
+.faq-item:first-child { border-top: 1px solid var(--bone-line); }
+.faq-item__q {
+  display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
+  padding: 1.4rem 0;
+  font-family: var(--font-display), serif; font-size: 1.25rem; font-weight: 400;
+  color: var(--ink); cursor: pointer; list-style: none;
+}
+.faq-item__q::-webkit-details-marker { display: none; }
+.faq-item__icon {
+  flex-shrink: 0;
+  width: 18px; height: 18px; position: relative;
+}
+.faq-item__icon::before,
+.faq-item__icon::after {
+  content: ""; position: absolute;
+  background: var(--brass); transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.faq-item__icon::before { width: 18px; height: 1px; top: 50%; left: 0; }
+.faq-item__icon::after  { width: 1px; height: 18px; left: 50%; top: 0; }
+.faq-item[open] .faq-item__icon::after { transform: rotate(90deg); opacity: 0; }
+.faq-item__a {
+  margin: 0; padding: 0 0 1.6rem;
+  font-family: var(--font-sans), sans-serif; font-size: 0.97rem;
+  color: var(--slate); line-height: 1.75; max-width: 68ch;
+}
 
 /* ============================================================
    FOOTER

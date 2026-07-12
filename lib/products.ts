@@ -1,14 +1,20 @@
+export type MediaItem =
+  | { type: "image"; src: string }
+  | { type: "video"; src: string };
+
 export type Product = {
   slug: string;
   name: string;
-  windTr: string;      // Turkish compass name label
-  windDir: string;     // short direction, e.g. "KD"
-  klass: string;       // model class line
-  lengthM: string;     // overall length placeholder
-  priceCents: number;  // placeholder price in EUR cents
+  windTr: string;
+  windDir: string;
+  klass: string;
+  lengthM: string;
+  priceCents: number;
   tagline: string;
-  description: string;  // lorem ipsum placeholder
+  description: string;
   specs: { label: string; value: string }[];
+  thumbnail?: string;
+  media?: MediaItem[];
 };
 
 const lorem =
@@ -23,7 +29,7 @@ const baseSpecs = (l: string) => [
   { label: "Tam Boy", value: l },
   { label: "Genişlik", value: "— m" },
   { label: "Su Çekimi", value: "— m" },
-  { label: "Yelken Alanı", value: "— m²" },
+  { label: "Yem Kapasitesi", value: "— kg" },
   { label: "Deplasman", value: "— t" },
   { label: "Tekne Malzemesi", value: "El yatırması kompozit" },
 ];
@@ -37,9 +43,16 @@ export const products: Product[] = [
     klass: "Performans Serisi",
     lengthM: "18,4 m",
     priceCents: 34500000,
-    tagline: "Sert rüzgârlar için doğmuş bir yelkenli.",
+    tagline: "Sert rüzgârlar için doğmuş bir yem botu.",
     description: lorem,
     specs: baseSpecs("18,4 m"),
+    thumbnail: "/images/poyraz1.png",
+    media: [
+      { type: "image", src: "/images/poyraz1.png" },
+      { type: "image", src: "/images/poyraz2.png" },
+      { type: "video", src: "/images/poyraz3.mp4" },
+      { type: "image", src: "/images/poyraz4.png" },
+    ],
   },
   {
     slug: "yildiz",

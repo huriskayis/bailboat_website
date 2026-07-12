@@ -7,7 +7,7 @@ export default function ProductCard({ p, index }: { p: Product; index: number })
   return (
     <Link href={`/koleksiyon/${p.slug}`} className="card">
       <div className="card__media">
-        <ImagePanel label={p.name} />
+        <ImagePanel label={p.name} src={p.thumbnail} />
         <span className="card__index">{num}</span>
       </div>
       <div className="card__body">

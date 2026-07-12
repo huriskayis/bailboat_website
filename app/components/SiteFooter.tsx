@@ -11,7 +11,7 @@ export default function SiteFooter() {
             VELA<span className="wordmark__sub">ATÖLYE</span>
           </p>
           <p className="site-footer__note">
-            Dünya standartlarında, atölyemizde el işçiliğiyle inşa edilen yelkenliler.
+            Dünya standartlarında, atölyemizde el işçiliğiyle inşa edilen yem botları.
           </p>
         </div>
 
@@ -24,9 +24,8 @@ export default function SiteFooter() {
           </div>
           <div>
             <p className="site-footer__head">Atölye</p>
-            <span>Tersane Caddesi No. 1</span>
-            <span>Bodrum, Türkiye</span>
-            <a href="mailto:atolye@vela.example">atolye@vela.example</a>
+            <span>Denizli, Türkiye</span>
+            <a href="mailto:atolye@vela.example">email@example.com</a>
           </div>
         </div>
       </div>
