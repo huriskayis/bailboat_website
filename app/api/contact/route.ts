@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   let data: Record<string, string> = {};
   try {
     data = await req.json();
@@ -12,15 +14,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Zorunlu alanlar eksik." }, { status: 400 });
   }
 
-  // TODO: Buraya gerçek gönderim eklenecek (ör. Resend ile e-posta veya bir veritabanı).
-  // Şimdilik yalnızca sunucu günlüğüne yazıyoruz.
-  console.log("Yeni iletişim mesajı:", {
-    name: data.name,
-    email: data.email,
-    phone: data.phone ?? "",
-    message: data.message,
-    at: new Date().toISOString(),
+  const { error } = await resend.emails.send({
+    from: "VELA Atölye <onboarding@resend.dev>",
+    to: "info@velayembotu.com",
+    replyTo: data.email,
+    subject: `Yeni mesaj: ${data.name}`,
+    text: [
+      `Ad Soyad: ${data.name}`,
+      `E-posta: ${data.email}`,
+      `Telefon: ${data.phone ?? "—"}`,
+      "",
+      data.message,
+    ].join("\n"),
   });
+
+  if (error) {
+    console.error("Resend hatası:", error);
+    return NextResponse.json({ error: "Mesaj gönderilemedi." }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }
