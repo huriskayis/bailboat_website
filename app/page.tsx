@@ -44,7 +44,7 @@ export default function HomePage() {
           </p>
           <div className="thesis__meta">
             <div>
-              <span className="thesis__num">1974</span>
+              <span className="thesis__num">2005</span>
               <span className="thesis__label">Kuruluş</span>
             </div>
             <div>
