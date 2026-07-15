@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Servislerimiz — VELA Atölye",
-  description: "Yem botunuz için uzun ömürlü pil ve batarya değişim hizmeti. Denizli'de profesyonel servis.",
+  title: "Yem Botu Pil ve Batarya Değişimi — Denizli Servis",
+  description: "Yem botunuzun pilinden memnun değil misiniz? Denizli'de uzun ömürlü batarya değişimi yapıyoruz. Tüm markalara uyumlu, aynı gün teslim, 12 ay garanti.",
 };
 
 export default function ServislerimizPage() {

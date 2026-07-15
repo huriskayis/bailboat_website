@@ -1,8 +1,8 @@
 import ImagePanel from "../components/ImagePanel";
 
 export const metadata = {
-  title: "Atölye — VELA Atölye",
-  description: "Dünya standartlarında el işçiliği.",
+  title: "Hakkımızda — El Yapımı Yem Botu Atölyesi Denizli",
+  description: "2005'ten bu yana Denizli'de el yapımı yem botu üretiyoruz. Her bot tek tek, yüksek kalite malzemelerle inşa edilir.",
 };
 
 export default function AtolyePage() {

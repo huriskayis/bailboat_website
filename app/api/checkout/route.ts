@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { getProduct } from "@/lib/products";
 
 export async function POST(req: NextRequest) {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json(
-      { error: "Ödeme yapılandırılmamış. STRIPE_SECRET_KEY ekleyin." },
-      { status: 500 }
-    );
-  }
-
   let slug: string | undefined;
   try {
     const body = await req.json();
@@ -29,6 +22,7 @@ export async function POST(req: NextRequest) {
     "http://localhost:3000";
 
   try {
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [

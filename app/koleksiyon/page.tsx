@@ -2,8 +2,8 @@ import { products } from "@/lib/products";
 import ProductCard from "../components/ProductCard";
 
 export const metadata = {
-  title: "Koleksiyon — VELA Atölye",
-  description: "Rüzgârların adını taşıyan el yapımı yem botları.",
+  title: "Yem Botu Modelleri ve Fiyatları — Koleksiyon",
+  description: "El yapımı yem botu modelleri ve fiyatları. Poyraz, Lodos, Meltem ve daha fazlası. Türkiye geneline gönderim. WhatsApp ile sipariş alınır.",
 };
 
 export default function KoleksiyonPage() {

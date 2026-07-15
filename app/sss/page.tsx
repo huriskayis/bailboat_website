@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Sıkça Sorulan Sorular — VELA Atölye",
-  description: "Yem botları hakkında merak ettiğiniz her şey.",
+  title: "Yem Botu Hakkında Sıkça Sorulan Sorular",
+  description: "Yem botu nasıl çalışır? Batarya ömrü ne kadar? Türkçe uygulama var mı? Merak ettiğiniz her şeyin cevabı burada.",
 };
 
 const faqs = [
