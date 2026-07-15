@@ -15,6 +15,7 @@ export type Product = {
   specs: { label: string; value: string }[];
   thumbnail?: string;
   media?: MediaItem[];
+  active?: boolean;
 };
 
 const lorem =
@@ -46,6 +47,7 @@ export const products: Product[] = [
     tagline: "Sert rüzgârlar için doğmuş bir yem botu.",
     description: lorem,
     specs: baseSpecs("18,4 m"),
+    active: true,
     thumbnail: "/images/poyraz1.png",
     media: [
       { type: "image", src: "/images/poyraz1.png" },

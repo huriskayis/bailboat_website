@@ -296,6 +296,23 @@ h1, h2, h3, h4 {
 }
 .card:hover .card__cta { opacity: 1; transform: translateX(0); }
 
+.card--inactive { cursor: default; }
+.card--inactive:hover { background: var(--bone); }
+.card--inactive .imgpanel { filter: grayscale(0.7); opacity: 0.55; }
+.card__sold {
+  position: absolute; top: 14px; right: 14px;
+  font-family: var(--font-sans), sans-serif; font-size: 0.62rem;
+  font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+  background: rgba(22, 38, 46, 0.72); color: var(--bone-mute);
+  padding: 0.3em 0.75em; backdrop-filter: blur(4px);
+  border: 1px solid var(--hull-3);
+}
+.card__unavailable {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bone-mute);
+}
+
 /* ============================================================
    IMAGE PLACEHOLDER PANEL
    ============================================================ */
