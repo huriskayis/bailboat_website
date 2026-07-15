@@ -43,7 +43,7 @@ export const products: Product[] = [
     windDir: "KD",
     klass: "Performans Serisi",
     lengthM: "65 cm",
-    priceCents: 34500000,
+    priceCents: 2000000,
     tagline: "Sert rüzgârlar için doğmuş bir yem botu.",
     description: lorem,
     specs: baseSpecs("65 cm"),
@@ -149,7 +149,7 @@ export function getProduct(slug: string): Product | undefined {
 export function formatPrice(cents: number): string {
   return new Intl.NumberFormat("tr-TR", {
     style: "currency",
-    currency: "EUR",
+    currency: "TRY",
     maximumFractionDigits: 0,
   }).format(cents / 100);
 }
