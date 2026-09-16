@@ -12,10 +12,9 @@ export default function KoleksiyonPage() {
       <div className="wrap">
         <header className="page__head">
           <p className="eyebrow">Koleksiyon</p>
-          <h1 className="section-title">Rüzgârlar</h1>
+          <h1 className="section-title">Ürünlerimiz</h1>
           <p className="page__lead">
-            Sekiz tekne, sekiz rüzgâr. Her biri atölyemizde tek tek,
-            dünya standartlarında inşa edilir.
+            Atölyemizde el işçiliğiyle, sınırlı sayıda üretilen yem botları.
           </p>
         </header>
         <div className="grid">

@@ -18,7 +18,6 @@ export default function ProductCard({ p, index }: { p: Product; index: number })
     <div className="card__body">
       <p className="card__wind">{p.windTr} · {p.windDir}</p>
       <h3 className="card__name">{p.name}</h3>
-      <p className="card__class">{p.klass}</p>
       <div className="card__foot">
         <span>{p.lengthM}</span>
         {active

@@ -8,6 +8,7 @@ const nav = [
   { href: "/koleksiyon", label: "Koleksiyon" },
   { href: "/atolye", label: "Atölye" },
   { href: "/servislerimiz", label: "Servislerimiz" },
+  { href: "/uygulama", label: "Uygulama" },
   { href: "/sss", label: "SSS" },
   { href: "/iletisim", label: "İletişim" },
 ];

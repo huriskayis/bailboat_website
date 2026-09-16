@@ -1,5 +1,6 @@
 import Link from "next/link";
 import WindMark from "./WindMark";
+import SocialLinks from "./SocialLinks";
 
 export default function SiteFooter() {
   return (
@@ -11,8 +12,9 @@ export default function SiteFooter() {
             VELA<span className="wordmark__sub">ATÖLYE</span>
           </p>
           <p className="site-footer__note">
-            Dünya standartlarında, atölyemizde el işçiliğiyle inşa edilen yem botları.
+            Atölyemizde el işçiliğiyle inşa edilen yem botları.
           </p>
+          <SocialLinks className="site-footer__social" />
         </div>
 
         <div className="site-footer__cols">

@@ -4,6 +4,7 @@ import { getProduct, products, formatPrice } from "@/lib/products";
 import ImagePanel from "../../components/ImagePanel";
 import MediaCarousel from "../../components/MediaCarousel";
 import BuyButton from "../../components/BuyButton";
+import DeliveryCalendar from "../../components/DeliveryCalendar";
 import WindMark from "../../components/WindMark";
 
 export function generateStaticParams() {
@@ -78,17 +79,26 @@ export default async function ProductPage({
               <span className="detail__price-value">{formatPrice(p.priceCents)}</span>
             </div>
 
-            <BuyButton slug={p.slug} />
-            <p className="detail__hint">
-              Ödeme güvenli olarak Stripe üzerinden gerçekleşir.
-            </p>
+            {p.deliverySchedule && (
+              <DeliveryCalendar schedule={p.deliverySchedule} />
+            )}
+
+            <BuyButton slug={p.slug} preorder={p.preorder} productName={p.name} />
+            {p.preorder ? (
+              <p className="detail__hint--preorder">
+                Şimdi sadece iletişime geçin — ödeme teslimat öncesinde yapılır.
+              </p>
+            ) : (
+              <p className="detail__hint">
+                Ödeme güvenli olarak Stripe üzerinden gerçekleşir.
+              </p>
+            )}
           </div>
         </div>
 
         <div className="detail__lower">
           <section className="detail__desc">
             <p className="eyebrow">Açıklama</p>
-            <p>{p.description}</p>
             <p>{p.description}</p>
           </section>
 

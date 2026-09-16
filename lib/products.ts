@@ -12,6 +12,11 @@ export type Product = {
   priceCents: number;
   tagline: string;
   description: string;
+  features?: { title: string; desc: string }[];
+  featureCategories?: { category: string; items: string[] }[];
+  comparison?: string;
+  preorder?: boolean;
+  deliverySchedule?: { month: number; year: number; status: "dolu" | "musait" | "yakin" }[];
   specs: { label: string; value: string }[];
   thumbnail?: string;
   media?: MediaItem[];
@@ -43,10 +48,27 @@ export const products: Product[] = [
     windDir: "KD",
     klass: "Performans Serisi",
     lengthM: "65 cm",
-    priceCents: 2000000,
-    tagline: "Sert rüzgârlar için doğmuş bir yem botu.",
-    description: lorem,
-    specs: baseSpecs("65 cm"),
+    priceCents: 2270000,
+    tagline: "VELA Sazan Yemleme Botu — Atölye Üretimi",
+    description:
+      "Poyraz, Denizli atölyemizde el ile üretilen 65 cm'lik bir sazan yemleme botudur. Geniş gövdesi sayesinde 3 adet yem haznesi taşır; hazne kapakları yem bırakıldıktan sonra otomatik kapanır, bot dengede kalır. GPS ile donatılmış Türkçe mobil uygulaması üzerinden kontrol edilir: 30'dan fazla konumu kaydedebilir, oto pilot ile hedef noktaya gönderebilir ve batarya azaldığında otomatik eve dönüş özelliğini etkinleştirebilirsiniz. Yerli üretim olduğu için yedek parça temininde belirsizlik yaşamazsınız.",
+    specs: [
+      { label: "Gövde uzunluğu", value: "65 cm" },
+      { label: "Yem haznesi", value: "3 adet, otomatik kapanır" },
+      { label: "Motor", value: "Çift motor" },
+      { label: "Navigasyon", value: "GPS oto pilot, eve dönüş" },
+      { label: "Konum hafızası", value: "30+ nokta" },
+      { label: "Kumanda menzili", value: "500 m" },
+      { label: "Batarya", value: "Çıkarılabilir" },
+      { label: "Uygulama", value: "Türkçe" },
+    ],
+    preorder: true,
+    deliverySchedule: [
+      { month: 8,  year: 2026, status: "dolu" },
+      { month: 9,  year: 2026, status: "dolu" },
+      { month: 10, year: 2026, status: "yakin" },
+      { month: 11, year: 2026, status: "musait" },
+    ],
     active: true,
     thumbnail: "/images/poyraz1.png",
     media: [

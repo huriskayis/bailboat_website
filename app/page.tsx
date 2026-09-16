@@ -18,8 +18,8 @@ export default function HomePage() {
           </h1>
           <hr className="rule hero__rule" />
           <p className="hero__lead">
-            Her tekne, atölyemizde dünya standartlarında el işçiliğiyle,
-            tek tek inşa edilir. Denizle kurulan eski bir dostluğun sürdürülmesi.
+            Türkiye'de, kendi atölyemizde, yerli ustalarımızın eliyle üretilen her tekne
+            kalite güvencemizdir. Satın aldığınız gün başlayan servis desteğiyle yanınızdayız.
           </p>
           <div className="hero__actions">
             <Link href="/koleksiyon" className="btn">
@@ -38,9 +38,9 @@ export default function HomePage() {
         <div className="wrap thesis__grid">
           <p className="eyebrow">Atölye</p>
           <p className="thesis__text">
-            Kalıptan değil, elden çıkar. Omurgadan güverteye her ayrıntı,
-            ustalarımızın sabrıyla ve denizin ölçüsüyle şekillenir.
-            Sınırlı sayıda üretir, her tekneye adını veren rüzgârı yaşatırız.
+            Denizli'deki atölyemizde her tekne, ustalarımızın elleriyle sıfırdan inşa edilir —
+            makineden değil, insandan geçer. Yılda sınırlı sayıda üretim yapıyoruz;
+            çünkü her teknenin hakkını vermek, hızdan önce gelir.
           </p>
           <div className="thesis__meta">
             <div>
@@ -48,8 +48,8 @@ export default function HomePage() {
               <span className="thesis__label">Kuruluş</span>
             </div>
             <div>
-              <span className="thesis__num">8</span>
-              <span className="thesis__label">Model</span>
+              <span className="thesis__num">Yerli Üretim</span>
+              <span className="thesis__label">Denizli</span>
             </div>
             <div>
               <span className="thesis__num">El yapımı</span>
@@ -65,7 +65,7 @@ export default function HomePage() {
           <div className="collection__head">
             <div>
               <p className="eyebrow">Koleksiyon</p>
-              <h2 className="section-title">Rüzgârlar</h2>
+              <h2 className="section-title">Yem Botları</h2>
             </div>
             <Link href="/koleksiyon" className="link-brass">
               Tümünü Gör

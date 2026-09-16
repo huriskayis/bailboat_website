@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Yem Botu Pil ve Batarya Değişimi — Denizli Servis",
-  description: "Yem botunuzun pilinden memnun değil misiniz? Denizli'de uzun ömürlü batarya değişimi yapıyoruz. Tüm markalara uyumlu, aynı gün teslim, 12 ay garanti.",
+  description: "Yem botunuzun pilinden memnun değil misiniz? Denizli'de uzun ömürlü batarya değişimi yapıyoruz. Tüm markalara uyumlu, aynı gün teslim.",
 };
 
 export default function ServislerimizPage() {
@@ -31,10 +31,9 @@ export default function ServislerimizPage() {
 
             <div className="servis__features">
               {[
-                { title: "Uzun Ömürlü Hücreler", desc: "Standart pillerden %40'a kadar daha fazla kullanım süresi." },
+                { title: "Uzun Ömürlü Hücreler", desc: "Standart pillerden belirgin şekilde daha uzun kullanım süresi." },
                 { title: "Tüm Modellere Uyum", desc: "Hangi marka veya model olursa olsun değişim yapıyoruz." },
                 { title: "Hızlı Servis", desc: "Aynı gün teslim. Botunuzu bırakın, hazır olunca haber verelim." },
-                { title: "Garanti", desc: "Tüm batarya değişimlerimiz 12 ay garantilidir." },
               ].map((f) => (
                 <div key={f.title} className="servis__feature">
                   <hr className="rule" />
