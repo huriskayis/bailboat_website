@@ -2,6 +2,18 @@ import Link from "next/link";
 import WindMark from "./WindMark";
 import SocialLinks from "./SocialLinks";
 
+function TroyLogo() {
+  return (
+    <svg width="50" height="32" viewBox="0 0 50 32" fill="none" aria-label="Troy" role="img">
+      <rect width="50" height="32" rx="4" fill="#C8102E" />
+      <text x="25" y="21" textAnchor="middle" fill="white" fontSize="13" fontWeight="700"
+        fontFamily="Arial, sans-serif" letterSpacing="1">
+        troy
+      </text>
+    </svg>
+  );
+}
+
 function VisaLogo() {
   return (
     <svg width="50" height="32" viewBox="0 0 50 32" fill="none" aria-label="Visa" role="img">
@@ -71,6 +83,7 @@ export default function SiteFooter() {
       <div className="wrap site-footer__payments">
         <span className="site-footer__payments-label">Güvenli Ödeme</span>
         <div className="site-footer__payment-logos">
+          <TroyLogo />
           <VisaLogo />
           <MastercardLogo />
           <IyzicoLogo />
