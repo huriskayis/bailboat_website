@@ -2,6 +2,41 @@ import Link from "next/link";
 import WindMark from "./WindMark";
 import SocialLinks from "./SocialLinks";
 
+function VisaLogo() {
+  return (
+    <svg width="50" height="32" viewBox="0 0 50 32" fill="none" aria-label="Visa" role="img">
+      <rect width="50" height="32" rx="4" fill="#1A1F71" />
+      <text x="25" y="22" textAnchor="middle" fill="white" fontSize="14" fontWeight="700"
+        fontFamily="Arial, sans-serif" fontStyle="italic" letterSpacing="1">
+        VISA
+      </text>
+    </svg>
+  );
+}
+
+function MastercardLogo() {
+  return (
+    <svg width="50" height="32" viewBox="0 0 50 32" fill="none" aria-label="Mastercard" role="img">
+      <rect width="50" height="32" rx="4" fill="#252525" />
+      <circle cx="19" cy="16" r="9" fill="#EB001B" />
+      <circle cx="31" cy="16" r="9" fill="#F79E1B" />
+      <path d="M25 9.27A9 9 0 0 1 31 16a9 9 0 0 1-6 6.73A9 9 0 0 1 19 16a9 9 0 0 1 6-6.73Z" fill="#FF5F00" />
+    </svg>
+  );
+}
+
+function IyzicoLogo() {
+  return (
+    <svg width="72" height="32" viewBox="0 0 72 32" fill="none" aria-label="iyzico ile öde" role="img">
+      <rect width="72" height="32" rx="4" fill="#00AEF0" />
+      <text x="36" y="20" textAnchor="middle" fill="white" fontSize="13" fontWeight="700"
+        fontFamily="Arial, sans-serif" letterSpacing="0.5">
+        iyzico
+      </text>
+    </svg>
+  );
+}
+
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
@@ -21,14 +56,24 @@ export default function SiteFooter() {
           <div>
             <p className="site-footer__head">Keşfet</p>
             <Link href="/koleksiyon">Koleksiyon</Link>
-            <Link href="/atolye">Atölye</Link>
+            <Link href="/atolye">Hakkımızda</Link>
             <Link href="/iletisim">İletişim</Link>
           </div>
           <div>
-            <p className="site-footer__head">Atölye</p>
-            <span>Denizli, Türkiye</span>
-            <a href="mailto:info@velayembotu.com">info@velayembotu.com</a>
+            <p className="site-footer__head">Yasal</p>
+            <Link href="/teslimat-ve-iade">Teslimat ve İade</Link>
+            <Link href="/gizlilik">Gizlilik Politikası</Link>
+            <Link href="/mesafeli-satis">Mesafeli Satış</Link>
           </div>
+        </div>
+      </div>
+
+      <div className="wrap site-footer__payments">
+        <span className="site-footer__payments-label">Güvenli Ödeme</span>
+        <div className="site-footer__payment-logos">
+          <VisaLogo />
+          <MastercardLogo />
+          <IyzicoLogo />
         </div>
       </div>
 

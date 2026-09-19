@@ -856,6 +856,33 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
+   LEGAL PAGES
+   ============================================================ */
+.legal-page { padding-block: 5rem; max-width: 52rem; }
+.legal-page__head { margin-bottom: 3rem; }
+.legal-page__head h1 { font-family: var(--font-display), serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 500; margin: 0.5rem 0; }
+.legal-page__meta { color: var(--slate); font-size: 0.85rem; margin-top: 0.5rem; }
+.legal-page__body { display: grid; gap: 0; }
+.legal-page__body h2 { font-family: var(--font-display), serif; font-size: 1.25rem; font-weight: 600; margin: 2.4rem 0 0.6rem; color: var(--ink); }
+.legal-page__body h2:first-child { margin-top: 0; }
+.legal-page__body p { color: var(--slate); line-height: 1.75; margin: 0 0 0.75rem; }
+.legal-page__body a { color: var(--brass); text-decoration: underline; }
+
+/* ============================================================
+   PAYMENT LOGOS (footer)
+   ============================================================ */
+.site-footer__payments {
+  display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap;
+  padding-block: 1.6rem;
+  border-top: 1px solid var(--hull-3);
+}
+.site-footer__payments-label {
+  font-family: var(--font-sans), sans-serif; font-size: 0.72rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-mute);
+}
+.site-footer__payment-logos { display: flex; align-items: center; gap: 0.75rem; }
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 860px) {
