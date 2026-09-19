@@ -50,9 +50,19 @@ export default async function ProductPage({
             Talebiniz alındı. Atölyemiz kısa süre içinde sizinle iletişime geçecek.
           </div>
         )}
+        {durum === "kapora-alindi" && (
+          <div className="banner banner--ok">
+            Kapora ödemeniz alındı. Siparişiniz garantilenmiştir — en kısa sürede sizi arayacağız.
+          </div>
+        )}
         {durum === "iptal" && (
           <div className="banner banner--muted">
             Ödeme tamamlanmadı. Dilediğiniz zaman yeniden deneyebilirsiniz.
+          </div>
+        )}
+        {durum === "kapora-hatasi" && (
+          <div className="banner banner--muted">
+            Kapora ödemesi tamamlanamadı. Lütfen tekrar deneyin veya bizimle iletişime geçin.
           </div>
         )}
 

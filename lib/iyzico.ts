@@ -1,0 +1,9 @@
+import Iyzipay from "iyzipay";
+
+export function getIyzico() {
+  return new Iyzipay({
+    apiKey: process.env.IYZICO_API_KEY!,
+    secretKey: process.env.IYZICO_SECRET_KEY!,
+    uri: process.env.IYZICO_BASE_URL ?? "https://sandbox-api.iyzipay.com",
+  });
+}

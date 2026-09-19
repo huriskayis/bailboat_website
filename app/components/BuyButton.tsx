@@ -45,6 +45,7 @@ export default function BuyButton({ slug, preorder, productName }: { slug: strin
       {showModal && (
         <PreorderModal
           productName={productName ?? slug}
+          productSlug={slug}
           onClose={() => setShowModal(false)}
         />
       )}
