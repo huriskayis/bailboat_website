@@ -1,9 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import type { HaritaNokta } from "./GolHaritasi";
+
+const GolHaritasi = lazy(() => import("./GolHaritasi"));
 
 type Role = "user" | "assistant";
 type Message = { role: Role; content: string };
+type GolKonum = { lat: number; lng: number };
+type MapData = { noktalar: HaritaNokta[] };
 
 const HEDEF_BALIK = ["Sazan", "Yayın Balığı", "Turna", "Çipura / Levrek (baraj)", "Diğer"];
 const HAVA = ["Açık ve güneşli", "Parçalı bulutlu", "Kapalı / bulutlu", "Yağmurlu", "Rüzgarlı"];
@@ -20,6 +25,42 @@ Su sıcaklığı: ${form.su}${form.notlar ? `\nEk bilgi: ${form.notlar}` : ""}
 Bugün nereye yem bırakmalıyım ve nasıl bir strateji izlemeliyim?`;
 }
 
+function parseMapData(text: string): { clean: string; mapData: MapData | null } {
+  const start = text.indexOf("HARITA_BASLANGIC");
+  const end = text.indexOf("HARITA_BITIS");
+  if (start === -1 || end === -1) return { clean: text, mapData: null };
+
+  const jsonStr = text.slice(start + "HARITA_BASLANGIC".length, end).trim();
+  const clean = (text.slice(0, start) + text.slice(end + "HARITA_BITIS".length)).trim();
+
+  try {
+    const parsed = JSON.parse(jsonStr);
+    if (parsed && Array.isArray(parsed.noktalar)) {
+      return { clean, mapData: { noktalar: parsed.noktalar } };
+    }
+  } catch {
+    // JSON parse failed, ignore map data
+  }
+  return { clean, mapData: null };
+}
+
+async function geocodeGol(golAdi: string): Promise<GolKonum | null> {
+  try {
+    const q = encodeURIComponent(`${golAdi}, Türkiye`);
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=tr`,
+      { headers: { "User-Agent": "VelaAtolye/1.0" } }
+    );
+    const data = await res.json();
+    if (data[0]) {
+      return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+    }
+  } catch {
+    // geocoding failed
+  }
+  return null;
+}
+
 export default function AsistanChat() {
   const [started, setStarted] = useState(false);
   const [form, setForm] = useState({ gol: "", hedef: HEDEF_BALIK[0], hava: HAVA[0], su: SU_SICAKLIGI[2], notlar: "" });
@@ -27,11 +68,13 @@ export default function AsistanChat() {
   const [streaming, setStreaming] = useState("");
   const [followUp, setFollowUp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [golKonum, setGolKonum] = useState<GolKonum | null>(null);
+  const [mapData, setMapData] = useState<MapData | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streaming, loading]);
+  }, [messages, streaming, loading, mapData]);
 
   async function send(content: string) {
     const next: Message[] = [...messages, { role: "user", content }];
@@ -59,7 +102,9 @@ export default function AsistanChat() {
         setStreaming(full);
       }
 
-      setMessages((prev) => [...prev, { role: "assistant", content: full }]);
+      const { clean, mapData: newMapData } = parseMapData(full);
+      setMessages((prev) => [...prev, { role: "assistant", content: clean }]);
+      if (newMapData) setMapData(newMapData);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: "Bir hata oluştu, lütfen tekrar deneyin." }]);
     } finally {
@@ -72,6 +117,8 @@ export default function AsistanChat() {
     e.preventDefault();
     if (!form.gol.trim()) return;
     setStarted(true);
+    // Geocode in parallel with sending the message
+    geocodeGol(form.gol).then((konum) => setGolKonum(konum));
     await send(buildFirstMessage(form));
   }
 
@@ -86,6 +133,9 @@ export default function AsistanChat() {
   function update(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
   }
+
+  // Clean the streaming text from the HARITA block while streaming
+  const streamingClean = parseMapData(streaming).clean;
 
   if (!started) {
     return (
@@ -139,6 +189,27 @@ export default function AsistanChat() {
 
   return (
     <div className="asistan-chat">
+      {golKonum && mapData && (
+        <div className="asistan-harita-wrap">
+          <p className="asistan-harita-baslik">
+            <span className="eyebrow">Strateji Haritası</span>
+            <span className="asistan-harita-legend">
+              <span className="legend-dot" style={{ background: "#B08A4F" }} /> Yem
+              <span className="legend-dot" style={{ background: "#0C1B26" }} /> Bekleme
+              <span className="legend-dot" style={{ background: "#c0392b" }} /> Dikkat
+            </span>
+          </p>
+          <Suspense fallback={<div className="asistan-harita-loading">Harita yükleniyor…</div>}>
+            <GolHaritasi
+              lat={golKonum.lat}
+              lng={golKonum.lng}
+              noktalar={mapData.noktalar}
+              golAdi={form.gol}
+            />
+          </Suspense>
+        </div>
+      )}
+
       <div className="asistan-messages">
         {messages.map((m, i) => (
           <div key={i} className={`asistan-msg asistan-msg--${m.role === "user" ? "user" : "ai"}`}>
@@ -146,13 +217,13 @@ export default function AsistanChat() {
             <div className="asistan-msg__body">{m.content}</div>
           </div>
         ))}
-        {streaming && (
+        {streamingClean && (
           <div className="asistan-msg asistan-msg--ai">
             <span className="asistan-msg__label">Asistan</span>
-            <div className="asistan-msg__body">{streaming}</div>
+            <div className="asistan-msg__body">{streamingClean}</div>
           </div>
         )}
-        {loading && !streaming && (
+        {loading && !streamingClean && (
           <div className="asistan-msg asistan-msg--ai">
             <span className="asistan-msg__label">Asistan</span>
             <div className="asistan-typing"><span /><span /><span /></div>
