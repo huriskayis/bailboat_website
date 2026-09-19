@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useRef, lazy, Suspense } from "react";
+import { GOL_LISTESI, BOLGE_LISTESI, golBul } from "../../lib/gol-listesi";
 import type { HaritaNokta } from "./GolHaritasi";
 
 const GolHaritasi = lazy(() => import("./GolHaritasi"));
 
-type GolKonum = { lat: number; lng: number };
 type MapData = { noktalar: HaritaNokta[] };
 
 const HEDEF_BALIK = ["Sazan", "Yayın Balığı", "Turna", "Çipura / Levrek (baraj)", "Diğer"];
 const HAVA = ["Açık ve güneşli", "Parçalı bulutlu", "Kapalı / bulutlu", "Yağmurlu", "Rüzgarlı"];
 const SU_SICAKLIGI = ["Soğuk (10°C altı)", "Serin (10–15°C)", "Ilık (15–22°C)", "Sıcak (22°C üzeri)"];
 
-const TURKEY_CENTER: GolKonum = { lat: 39.1, lng: 35.2 };
+const ILKGOL = GOL_LISTESI[0].isim;
 
 function buildMessage(form: { gol: string; hedef: string; hava: string; su: string; notlar: string }) {
-  return `Göl/Nehir: ${form.gol}
+  return `Göl/Baraj: ${form.gol}
 Hedef balık: ${form.hedef}
 Hava: ${form.hava}
 Su sıcaklığı: ${form.su}${form.notlar ? `\nEk bilgi: ${form.notlar}` : ""}`;
@@ -33,25 +33,10 @@ function parseMapData(text: string): MapData | null {
   return null;
 }
 
-async function geocodeGol(golAdi: string): Promise<GolKonum | null> {
-  try {
-    const q = encodeURIComponent(`${golAdi}, Türkiye`);
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=tr`,
-      { headers: { "User-Agent": "VelaAtolye/1.0" } }
-    );
-    const data = await res.json();
-    if (data[0]) return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-  } catch { /* ignore */ }
-  return null;
-}
-
 export default function AsistanChat() {
   const [phase, setPhase] = useState<"form" | "loading" | "map">("form");
-  const [form, setForm] = useState({ gol: "", hedef: HEDEF_BALIK[0], hawa: HAVA[0], su: SU_SICAKLIGI[2], notlar: "" });
-  const [golKonum, setGolKonum] = useState<GolKonum>(TURKEY_CENTER);
+  const [form, setForm] = useState({ gol: ILKGOL, hedef: HEDEF_BALIK[0], hava: HAVA[0], su: SU_SICAKLIGI[2], notlar: "" });
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [geocodeFailed, setGeocodeFailed] = useState(false);
   const bufRef = useRef("");
 
   function update(field: keyof typeof form, value: string) {
@@ -60,29 +45,14 @@ export default function AsistanChat() {
 
   async function handleStart(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.gol.trim()) return;
-
     setPhase("loading");
     bufRef.current = "";
 
-    // Geocode and AI call in parallel
-    const [konum] = await Promise.allSettled([
-      geocodeGol(form.gol).then((k) => {
-        if (k) { setGolKonum(k); setGeocodeFailed(false); }
-        else { setGeocodeFailed(true); }
-        return k;
-      }),
-    ]);
-    void konum;
-
-    // AI call
     try {
       const res = await fetch("/api/asistan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: buildMessage({ ...form, hava: form.hawa }) }],
-        }),
+        body: JSON.stringify({ messages: [{ role: "user", content: buildMessage(form) }] }),
       });
       if (!res.ok || !res.body) throw new Error();
 
@@ -105,19 +75,24 @@ export default function AsistanChat() {
     setPhase("form");
     setMapData(null);
     bufRef.current = "";
-    setGeocodeFailed(false);
   }
+
+  const secilenGol = golBul(form.gol);
 
   if (phase === "form") {
     return (
       <form className="asistan-form" onSubmit={handleStart}>
         <div className="field">
-          <label htmlFor="as-gol">Göl veya Nehir Adı</label>
-          <input
-            id="as-gol" type="text" required
-            value={form.gol} onChange={(e) => update("gol", e.target.value)}
-            placeholder="örn. Atatürk Barajı, Kemer Gölü, Büyük Menderes..."
-          />
+          <label htmlFor="as-gol">Göl veya Baraj</label>
+          <select id="as-gol" value={form.gol} onChange={(e) => update("gol", e.target.value)}>
+            {BOLGE_LISTESI.map((bolge) => (
+              <optgroup key={bolge} label={bolge}>
+                {GOL_LISTESI.filter((g) => g.bolge === bolge).map((g) => (
+                  <option key={g.isim} value={g.isim}>{g.isim}</option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
         </div>
         <div className="field-row">
           <div className="field">
@@ -127,8 +102,8 @@ export default function AsistanChat() {
             </select>
           </div>
           <div className="field">
-            <label htmlFor="as-hawa">Hava Durumu</label>
-            <select id="as-hawa" value={form.hawa} onChange={(e) => update("hawa", e.target.value)}>
+            <label htmlFor="as-hava">Hava Durumu</label>
+            <select id="as-hava" value={form.hava} onChange={(e) => update("hava", e.target.value)}>
               {HAVA.map((h) => <option key={h}>{h}</option>)}
             </select>
           </div>
@@ -171,16 +146,10 @@ export default function AsistanChat() {
     );
   }
 
-  // map phase
   return (
     <div className="asistan-map-phase">
       <div className="asistan-map-header">
-        <div className="asistan-map-meta">
-          <span className="eyebrow">{form.gol}</span>
-          {geocodeFailed && (
-            <span className="asistan-geo-warn">Konum bulunamadı — yaklaşık işaretleme</span>
-          )}
-        </div>
+        <span className="eyebrow">{form.gol}</span>
         <div className="asistan-map-legend">
           <span><span className="legend-dot" style={{ background: "#B08A4F" }} />Yem</span>
           <span><span className="legend-dot" style={{ background: "#0C1B26" }} />Bekleme</span>
@@ -191,12 +160,12 @@ export default function AsistanChat() {
         </button>
       </div>
 
-      {mapData ? (
+      {mapData && secilenGol ? (
         <div className="asistan-map-container">
           <Suspense fallback={<div className="asistan-harita-loading">Harita yükleniyor…</div>}>
             <GolHaritasi
-              lat={golKonum.lat}
-              lng={golKonum.lng}
+              lat={secilenGol.lat}
+              lng={secilenGol.lng}
               noktalar={mapData.noktalar}
               golAdi={form.gol}
             />
