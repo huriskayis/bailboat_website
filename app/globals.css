@@ -885,11 +885,11 @@ h1, h2, h3, h4 {
 /* ============================================================
    AI ASISTAN
    ============================================================ */
-.asistan-page { padding-block: 5rem; max-width: 62rem; }
+.asistan-page { padding-block: 5rem; max-width: 72rem; }
 .asistan-page__head { margin-bottom: 2.8rem; }
 .asistan-page__lead { color: var(--slate); max-width: 54ch; line-height: 1.7; margin-top: 0.75rem; }
 
-.asistan-form { display: grid; gap: 1.6rem; }
+.asistan-form { display: grid; gap: 1.6rem; max-width: 52rem; }
 .asistan-form select {
   width: 100%; padding: 0.55rem 0; background: transparent;
   border: none; border-bottom: 1px solid var(--bone-line);
@@ -898,73 +898,79 @@ h1, h2, h3, h4 {
 }
 .asistan-form select:focus { outline: none; border-bottom-color: var(--brass); }
 
-.asistan-chat { display: flex; flex-direction: column; gap: 1.6rem; }
+/* Map phase layout */
+.asistan-map-phase { display: flex; flex-direction: column; gap: 1rem; }
 
-/* Harita */
-.asistan-harita-wrap {
-  border: 1px solid var(--bone-line); border-radius: 3px; overflow: hidden;
-  background: var(--bone-2);
+.asistan-map-header {
+  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
 }
-.asistan-harita-baslik {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.75rem 1rem; border-bottom: 1px solid var(--bone-line);
-  margin: 0;
+.asistan-map-meta { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.asistan-geo-warn {
+  font-family: var(--font-sans), sans-serif; font-size: 0.75rem;
+  color: var(--slate); font-style: italic;
 }
-.asistan-harita-legend {
-  display: flex; align-items: center; gap: 1rem;
+.asistan-map-legend {
+  display: flex; align-items: center; gap: 1.2rem;
   font-family: var(--font-sans), sans-serif; font-size: 0.72rem;
   letter-spacing: 0.08em; color: var(--slate);
 }
 .legend-dot {
-  display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px;
+  display: inline-block; width: 9px; height: 9px;
+  border-radius: 50%; margin-right: 5px; vertical-align: middle;
 }
-.gol-haritasi { width: 100%; height: 380px; }
+.asistan-reset-btn { font-size: 0.82rem; padding: 0.4rem 1rem; white-space: nowrap; }
+
+.asistan-map-container { position: relative; border: 1px solid var(--bone-line); border-radius: 3px; overflow: hidden; }
+
+.gol-haritasi { width: 100%; height: 520px; display: block; }
+
 .asistan-harita-loading {
-  height: 380px; display: flex; align-items: center; justify-content: center;
+  height: 520px; display: flex; align-items: center; justify-content: center;
   color: var(--slate); font-size: 0.9rem; font-family: var(--font-sans), sans-serif;
+  background: var(--bone-2);
+}
+
+.asistan-map-overlay {
+  position: absolute; inset: 0; z-index: 1000;
+  background: rgba(239,234,224,0.88);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1rem;
+  font-family: var(--font-sans), sans-serif; font-size: 0.95rem; color: var(--slate);
+}
+.asistan-map-overlay--error { background: rgba(239,234,224,0.95); }
+.asistan-map-spinner {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 3px solid var(--bone-line); border-top-color: var(--brass);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.asistan-map-hint {
+  margin: 0.5rem 0 0; font-family: var(--font-sans), sans-serif;
+  font-size: 0.75rem; color: var(--slate); text-align: center; letter-spacing: 0.04em;
 }
 
 /* Leaflet overrides */
 .leaflet-container { font-family: var(--font-sans), sans-serif; }
-.leaflet-popup-content-wrapper { border-radius: 3px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
-.leaflet-popup-content { font-size: 0.88rem; line-height: 1.6; margin: 10px 14px; }
-
-.asistan-messages { display: flex; flex-direction: column; gap: 1.4rem; }
-
-.asistan-msg { display: flex; flex-direction: column; gap: 0.4rem; max-width: 80%; }
-.asistan-msg--user { align-self: flex-end; align-items: flex-end; }
-.asistan-msg--ai { align-self: flex-start; }
-.asistan-msg__label {
-  font-family: var(--font-sans), sans-serif; font-size: 0.72rem;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate);
+.leaflet-popup-content-wrapper {
+  border-radius: 3px !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important;
+  border: 1px solid var(--bone-line) !important;
+  padding: 0 !important;
 }
-.asistan-msg__body {
-  padding: 1rem 1.2rem; border-radius: 2px; line-height: 1.7;
-  font-size: 0.97rem; white-space: pre-wrap;
+.leaflet-popup-content { margin: 14px 16px !important; }
+.leaflet-popup-tip { background: #fff !important; }
+.harita-label {
+  background: rgba(255,255,255,0.92) !important;
+  border: 1px solid var(--bone-line) !important;
+  border-radius: 2px !important;
+  font-family: var(--font-sans), sans-serif !important;
+  font-size: 11px !important; font-weight: 500 !important;
+  color: var(--ink) !important;
+  padding: 2px 6px !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
+  white-space: nowrap !important;
 }
-.asistan-msg--user .asistan-msg__body { background: var(--hull); color: var(--bone); }
-.asistan-msg--ai .asistan-msg__body { background: var(--bone-2); color: var(--ink); border: 1px solid var(--bone-line); }
-
-.asistan-typing { display: flex; gap: 5px; padding: 1rem 1.2rem; background: var(--bone-2); border: 1px solid var(--bone-line); }
-.asistan-typing span {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--slate);
-  animation: asistan-bounce 1.2s infinite ease-in-out;
-}
-.asistan-typing span:nth-child(2) { animation-delay: 0.2s; }
-.asistan-typing span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes asistan-bounce {
-  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-  40% { transform: translateY(-6px); opacity: 1; }
-}
-
-.asistan-input-row { display: flex; gap: 1rem; align-items: flex-start; border-top: 1px solid var(--bone-line); padding-top: 1.4rem; }
-.asistan-input-row input {
-  flex: 1; padding: 0.55rem 0; background: transparent;
-  border: none; border-bottom: 1px solid var(--bone-line);
-  font-family: var(--font-sans), sans-serif; font-size: 1rem; color: var(--ink);
-}
-.asistan-input-row input:focus { outline: none; border-bottom-color: var(--brass); }
-.asistan-input-row input::placeholder { color: #A99E88; }
 
 /* ============================================================
    RESPONSIVE

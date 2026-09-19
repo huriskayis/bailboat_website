@@ -36,12 +36,12 @@ const TIP_RENK: Record<string, string> = {
 };
 
 const TIP_ETIKET: Record<string, string> = {
-  yem:     "Yem",
-  bekleme: "Bekleme",
-  dikkat:  "Dikkat",
+  yem:     "YEM NOKTASI",
+  bekleme: "BEKLEME",
+  dikkat:  "DİKKAT",
 };
 
-const BASE_OFFSET = 0.025;
+const BASE_OFFSET = 0.028;
 
 export default function GolHaritasi({ lat, lng, noktalar, golAdi }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -53,7 +53,6 @@ export default function GolHaritasi({ lat, lng, noktalar, golAdi }: Props) {
     import("leaflet").then((L) => {
       if (!mapRef.current || instanceRef.current) return;
 
-      // Fix default icon paths for Next.js
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (L.Icon.Default.prototype as any)._getIconUrl;
       L.Icon.Default.mergeOptions({
@@ -70,53 +69,79 @@ export default function GolHaritasi({ lat, lng, noktalar, golAdi }: Props) {
         maxZoom: 18,
       }).addTo(map);
 
-      // Lake center marker
+      // Lake center dot
       const centerIcon = L.divIcon({
-        html: `<div style="width:12px;height:12px;border-radius:50%;background:#1C3742;border:2px solid #B08A4F;"></div>`,
+        html: `<div style="width:10px;height:10px;border-radius:50%;background:#B08A4F;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);"></div>`,
         className: "",
-        iconSize: [12, 12],
-        iconAnchor: [6, 6],
+        iconSize: [10, 10],
+        iconAnchor: [5, 5],
       });
       L.marker([lat, lng], { icon: centerIcon })
         .addTo(map)
-        .bindPopup(`<strong>${golAdi}</strong><br>Merkez`);
+        .bindTooltip(golAdi, { permanent: false, direction: "top", offset: [0, -8] });
 
-      // Strategy point markers
+      // Strategy markers
+      const allPoints: L.LatLngExpression[] = [[lat, lng]];
+
       noktalar.forEach((nokta, i) => {
         const [dy, dx] = YON_VEKTORU[nokta.yon] ?? [0, 0];
         const nLat = lat + dy * BASE_OFFSET * nokta.mesafe;
         const nLng = lng + dx * BASE_OFFSET * nokta.mesafe;
+        allPoints.push([nLat, nLng]);
+
         const renk = TIP_RENK[nokta.tip] ?? "#B08A4F";
         const etiket = TIP_ETIKET[nokta.tip] ?? nokta.tip;
+        const num = i + 1;
 
+        // Numbered circle marker
         const icon = L.divIcon({
-          html: `<div style="
-            min-width:28px;padding:3px 7px;
-            background:${renk};color:#EFEAE0;
-            font-size:11px;font-weight:600;letter-spacing:0.05em;
-            border-radius:2px;white-space:nowrap;
-            box-shadow:0 2px 6px rgba(0,0,0,0.25);
-          ">${i + 1}. ${nokta.isim}</div>`,
+          html: `
+            <div style="
+              width:40px;height:40px;border-radius:50%;
+              background:${renk};
+              border:3px solid rgba(255,255,255,0.9);
+              box-shadow:0 3px 10px rgba(0,0,0,0.35);
+              display:flex;align-items:center;justify-content:center;
+              color:#fff;font-size:16px;font-weight:700;
+              font-family:system-ui,sans-serif;
+              position:relative;
+            ">${num}
+              <div style="
+                position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+                width:0;height:0;
+                border-left:6px solid transparent;
+                border-right:6px solid transparent;
+                border-top:8px solid ${renk};
+              "></div>
+            </div>`,
           className: "",
-          iconAnchor: [14, 14],
+          iconSize: [40, 48],
+          iconAnchor: [20, 48],
+          popupAnchor: [0, -50],
         });
 
-        L.marker([nLat, nLng], { icon })
-          .addTo(map)
-          .bindPopup(`
-            <strong>${nokta.isim}</strong>
-            <span style="display:inline-block;margin-left:6px;padding:1px 5px;background:${renk};color:#fff;font-size:10px;border-radius:2px;">${etiket}</span>
-            <br><br>${nokta.aciklama}
-          `);
+        // Popup content
+        const popupHtml = `
+          <div style="min-width:220px;max-width:270px;font-family:system-ui,sans-serif;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:${renk};margin-bottom:4px;">${etiket}</div>
+            <div style="font-size:15px;font-weight:600;color:#16262E;margin-bottom:10px;line-height:1.3;">${num}. ${nokta.isim}</div>
+            <div style="font-size:13px;line-height:1.65;color:#3a4f57;">${nokta.aciklama}</div>
+          </div>`;
+
+        const marker = L.marker([nLat, nLng], { icon }).addTo(map);
+        marker.bindPopup(popupHtml, { maxWidth: 290, minWidth: 220 });
+
+        // Permanent name label
+        marker.bindTooltip(`${num}. ${nokta.isim}`, {
+          permanent: true,
+          direction: "right",
+          offset: [12, -24],
+          className: "harita-label",
+        });
       });
 
-      // Fit bounds to all markers
       if (noktalar.length > 0) {
-        const allPoints: L.LatLngExpression[] = [[lat, lng], ...noktalar.map((n) => {
-          const [dy, dx] = YON_VEKTORU[n.yon] ?? [0, 0];
-          return [lat + dy * BASE_OFFSET * n.mesafe, lng + dx * BASE_OFFSET * n.mesafe] as L.LatLngExpression;
-        })];
-        map.fitBounds(L.latLngBounds(allPoints), { padding: [40, 40] });
+        map.fitBounds(L.latLngBounds(allPoints), { padding: [50, 50] });
       }
     });
 
