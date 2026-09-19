@@ -2,7 +2,7 @@
 
 import { useState, useRef, lazy, Suspense } from "react";
 import { GOL_LISTESI, BOLGE_LISTESI, golBul } from "../../lib/gol-listesi";
-import type { HaritaNokta } from "./GolHaritasi";
+import type { HaritaNokta, LakeBounds } from "./GolHaritasi";
 
 const GolHaritasi = lazy(() => import("./GolHaritasi"));
 
@@ -13,6 +13,32 @@ const HAVA = ["Açık ve güneşli", "Parçalı bulutlu", "Kapalı / bulutlu", "
 const SU_SICAKLIGI = ["Soğuk (10°C altı)", "Serin (10–15°C)", "Ilık (15–22°C)", "Sıcak (22°C üzeri)"];
 
 const ILKGOL = GOL_LISTESI[0].isim;
+const DEFAULT_HALF = 0.018;
+
+async function fetchLakeBounds(golAdi: string, fallbackLat: number, fallbackLng: number): Promise<LakeBounds> {
+  try {
+    const q = encodeURIComponent(golAdi + " Türkiye");
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=5&countrycodes=tr`,
+      { headers: { "User-Agent": "VelaAtolye/1.0" } }
+    );
+    const data: Array<{ class: string; boundingbox?: string[] }> = await res.json();
+    // Prefer water/natural/landuse result
+    const hit = data.find((r) =>
+      ["natural", "water", "waterway", "landuse"].includes(r.class)
+    ) ?? data[0];
+    if (!hit?.boundingbox) throw new Error("no bbox");
+    const [minLat, maxLat, minLng, maxLng] = hit.boundingbox.map(Number);
+    return {
+      lat: (minLat + maxLat) / 2,
+      lng: (minLng + maxLng) / 2,
+      halfLat: Math.max((maxLat - minLat) / 2, DEFAULT_HALF),
+      halfLng: Math.max((maxLng - minLng) / 2, DEFAULT_HALF),
+    };
+  } catch {
+    return { lat: fallbackLat, lng: fallbackLng, halfLat: DEFAULT_HALF, halfLng: DEFAULT_HALF };
+  }
+}
 
 function buildMessage(form: { gol: string; hedef: string; hava: string; su: string; notlar: string }) {
   return `Göl/Baraj: ${form.gol}
@@ -37,6 +63,7 @@ export default function AsistanChat() {
   const [phase, setPhase] = useState<"form" | "loading" | "map">("form");
   const [form, setForm] = useState({ gol: ILKGOL, hedef: HEDEF_BALIK[0], hava: HAVA[0], su: SU_SICAKLIGI[2], notlar: "" });
   const [mapData, setMapData] = useState<MapData | null>(null);
+  const [lakeBounds, setLakeBounds] = useState<LakeBounds | null>(null);
   const bufRef = useRef("");
 
   function update(field: keyof typeof form, value: string) {
@@ -47,6 +74,19 @@ export default function AsistanChat() {
     e.preventDefault();
     setPhase("loading");
     bufRef.current = "";
+
+    const fallback = golBul(form.gol);
+    const fallbackLat = fallback?.lat ?? 39.1;
+    const fallbackLng = fallback?.lng ?? 35.2;
+
+    // Fetch real lake bbox and AI response in parallel
+    const [boundsResult] = await Promise.allSettled([
+      fetchLakeBounds(form.gol, fallbackLat, fallbackLng).then((b) => {
+        setLakeBounds(b);
+        return b;
+      }),
+    ]);
+    void boundsResult;
 
     try {
       const res = await fetch("/api/asistan", {
@@ -74,6 +114,7 @@ export default function AsistanChat() {
   function handleReset() {
     setPhase("form");
     setMapData(null);
+    setLakeBounds(null);
     bufRef.current = "";
   }
 
@@ -160,12 +201,16 @@ export default function AsistanChat() {
         </button>
       </div>
 
-      {mapData && secilenGol ? (
+      {mapData && (lakeBounds ?? secilenGol) ? (
         <div className="asistan-map-container">
           <Suspense fallback={<div className="asistan-harita-loading">Harita yükleniyor…</div>}>
             <GolHaritasi
-              lat={secilenGol.lat}
-              lng={secilenGol.lng}
+              bounds={lakeBounds ?? {
+                lat: secilenGol!.lat,
+                lng: secilenGol!.lng,
+                halfLat: 0.018,
+                halfLng: 0.018,
+              }}
               noktalar={mapData.noktalar}
               golAdi={form.gol}
             />
