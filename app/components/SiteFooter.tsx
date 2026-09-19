@@ -1,16 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import WindMark from "./WindMark";
 import SocialLinks from "./SocialLinks";
 
 function TroyLogo() {
   return (
-    <svg width="50" height="32" viewBox="0 0 50 32" fill="none" aria-label="Troy" role="img">
-      <rect width="50" height="32" rx="4" fill="#C8102E" />
-      <text x="25" y="21" textAnchor="middle" fill="white" fontSize="13" fontWeight="700"
-        fontFamily="Arial, sans-serif" letterSpacing="1">
-        troy
-      </text>
-    </svg>
+    <Image
+      src="/images/troy-logo.png"
+      alt="Troy"
+      width={72}
+      height={34}
+      style={{ objectFit: "contain" }}
+    />
   );
 }
 
