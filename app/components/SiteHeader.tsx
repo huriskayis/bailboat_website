@@ -7,6 +7,7 @@ const nav = [
   { href: "/", label: "Anasayfa" },
   { href: "/koleksiyon", label: "Koleksiyon" },
   { href: "/atolye", label: "Atölye" },
+  { href: "/asistan", label: "AI Asistan" },
   { href: "/servislerimiz", label: "Servislerimiz" },
   { href: "/uygulama", label: "Uygulama" },
   { href: "/sss", label: "SSS" },

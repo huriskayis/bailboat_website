@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.58",
+    "@ai-sdk/react": "^4.0.110",
     "@vercel/analytics": "^2.0.1",
+    "ai": "^7.0.107",
     "iyzipay": "^2.0.69",
     "next": "^16.2.10",
     "react": "^19.2.7",
