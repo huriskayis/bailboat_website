@@ -6,7 +6,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 export default function PreorderModal({ productName, onClose }: { productName: string; onClose: () => void }) {
   const [status, setStatus] = useState<Status>("idle");
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", quantity: "1", message: "" });
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -17,14 +17,21 @@ export default function PreorderModal({ productName, onClose }: { productName: s
     setForm((f) => ({ ...f, [field]: value }));
   }
 
+  function updateQuantity(value: string) {
+    const digits = value.replace(/\D/g, "");
+    setForm((f) => ({ ...f, quantity: digits }));
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("sending");
+    const qty = parseInt(form.quantity, 10);
+    const quantityLine = qty > 1 ? `\nAdet: ${qty}` : "";
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, message: `[Ön Sipariş — ${productName}]\n${form.message}` }),
+        body: JSON.stringify({ ...form, message: `[Ön Sipariş — ${productName}]${quantityLine}\n${form.message}` }),
       });
       setStatus(res.ok ? "sent" : "error");
     } catch {
@@ -61,6 +68,15 @@ export default function PreorderModal({ productName, onClose }: { productName: s
                   id="po-name" type="text" required
                   value={form.name} onChange={(e) => update("name", e.target.value)}
                   placeholder="Adınız ve soyadınız"
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="po-quantity">Adet</label>
+                <input
+                  id="po-quantity" type="text" inputMode="numeric" required
+                  value={form.quantity}
+                  onChange={(e) => updateQuantity(e.target.value)}
+                  style={{ maxWidth: "8rem" }}
                 />
               </div>
               <div className="field-row">
