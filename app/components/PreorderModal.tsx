@@ -48,7 +48,7 @@ export default function PreorderModal({ productName, onClose }: { productName: s
           <div className="form-done">
             <p className="eyebrow">Talebiniz alındı</p>
             <p className="form-done__text">
-              En kısa sürede sizi arayarak teslimat tarihi ve ödeme detaylarını birlikte netleştireceğiz.
+              Size bir onay maili gönderdik. Teslimat tarihi ve ödeme detayları için en kısa sürede dönüş yapacağız.
             </p>
           </div>
         ) : (
