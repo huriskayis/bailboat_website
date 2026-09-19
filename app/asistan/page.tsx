@@ -10,7 +10,7 @@ export default function AsistanPage() {
     <section className="wrap asistan-page">
       <header className="asistan-page__head">
         <p className="eyebrow">Yapay Zeka Danışmanı</p>
-        <h1 className="section-title">Bugün nereye atayım?</h1>
+        <h1 className="section-title">Bugün nereye olta atayım?</h1>
         <p className="asistan-page__lead">
           Göl, hava ve hedef balık bilgilerini girin — yem bırakma stratejinizi
           yapay zeka hazırlasın.
