@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { products } from "@/lib/products";
+import { listedProducts } from "@/lib/products";
 import ProductCard from "./components/ProductCard";
 import WindMark from "./components/WindMark";
 
 export default function HomePage() {
+  const listed = listedProducts();
   return (
     <>
       {/* Hero */}
@@ -44,10 +45,6 @@ export default function HomePage() {
           </p>
           <div className="thesis__meta">
             <div>
-              <span className="thesis__num">2005</span>
-              <span className="thesis__label">Kuruluş</span>
-            </div>
-            <div>
               <span className="thesis__num">Yerli Üretim</span>
               <span className="thesis__label">Denizli</span>
             </div>
@@ -72,7 +69,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid">
-            {products.map((p, i) => (
+            {listed.map((p, i) => (
               <ProductCard key={p.slug} p={p} index={i} />
             ))}
           </div>

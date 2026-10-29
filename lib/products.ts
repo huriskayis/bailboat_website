@@ -15,8 +15,8 @@ export type Product = {
   features?: { title: string; desc: string }[];
   featureCategories?: { category: string; items: string[] }[];
   comparison?: string;
-  preorder?: boolean;
-  deliverySchedule?: { month: number; year: number; status: "dolu" | "musait" | "yakin" }[];
+  listed?: boolean;
+  inStock?: boolean;
   specs: { label: string; value: string }[];
   thumbnail?: string;
   media?: MediaItem[];
@@ -48,7 +48,7 @@ export const products: Product[] = [
     windDir: "KD",
     klass: "Performans Serisi",
     lengthM: "65 cm",
-    priceCents: 2270000,
+    priceCents: 1490000,
     tagline: "VELA Sazan Yemleme Botu — Atölye Üretimi",
     description:
       "Poyraz, Denizli atölyemizde el ile üretilen 65 cm'lik bir sazan yemleme botudur. Geniş gövdesi sayesinde 3 adet yem haznesi taşır; hazne kapakları yem bırakıldıktan sonra otomatik kapanır, bot dengede kalır. GPS ile donatılmış Türkçe mobil uygulaması üzerinden kontrol edilir: 30'dan fazla konumu kaydedebilir, oto pilot ile hedef noktaya gönderebilir ve batarya azaldığında otomatik eve dönüş özelliğini etkinleştirebilirsiniz. Yerli üretim olduğu için yedek parça temininde belirsizlik yaşamazsınız.",
@@ -62,13 +62,8 @@ export const products: Product[] = [
       { label: "Batarya", value: "Çıkarılabilir" },
       { label: "Uygulama", value: "Türkçe" },
     ],
-    preorder: true,
-    deliverySchedule: [
-      { month: 8,  year: 2026, status: "dolu" },
-      { month: 9,  year: 2026, status: "dolu" },
-      { month: 10, year: 2026, status: "yakin" },
-      { month: 11, year: 2026, status: "musait" },
-    ],
+    listed: true,
+    inStock: true,
     active: true,
     thumbnail: "/images/poyraz1.png",
     media: [
@@ -89,6 +84,7 @@ export const products: Product[] = [
     tagline: "Kuzey yıldızına yönelen amiral tekne.",
     description: lorem,
     specs: baseSpecs("95 cm"),
+    listed: false,
   },
   {
     slug: "karayel",
@@ -101,6 +97,7 @@ export const products: Product[] = [
     tagline: "Çevik, keskin, hırçın sulara hazır.",
     description: lorem,
     specs: baseSpecs("58 cm"),
+    listed: false,
   },
   {
     slug: "lodos",
@@ -113,6 +110,7 @@ export const products: Product[] = [
     tagline: "Uzun seyirler için ılık, dingin bir denge.",
     description: lorem,
     specs: baseSpecs("72 cm"),
+    listed: false,
   },
   {
     slug: "kible",
@@ -125,6 +123,7 @@ export const products: Product[] = [
     tagline: "Güneye açılan sabırlı bir gezgin.",
     description: lorem,
     specs: baseSpecs("78 cm"),
+    listed: false,
   },
   {
     slug: "gundogusu",
@@ -137,6 +136,7 @@ export const products: Product[] = [
     tagline: "Gün doğarken ufka ilk ulaşan.",
     description: lorem,
     specs: baseSpecs("62 cm"),
+    listed: false,
   },
   {
     slug: "kesisleme",
@@ -149,6 +149,7 @@ export const products: Product[] = [
     tagline: "Sıcak sulara nazik bir yönelme.",
     description: lorem,
     specs: baseSpecs("85 cm"),
+    listed: false,
   },
   {
     slug: "meltem",
@@ -161,11 +162,16 @@ export const products: Product[] = [
     tagline: "Yaz akşamlarının hafif, zarif esintisi.",
     description: lorem,
     specs: baseSpecs("52 cm"),
+    listed: false,
   },
 ];
 
 export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
+}
+
+export function listedProducts(): Product[] {
+  return products.filter((p) => p.listed === true);
 }
 
 export function formatPrice(cents: number): string {

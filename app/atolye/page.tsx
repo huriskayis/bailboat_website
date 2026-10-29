@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Hakkımızda — El Yapımı Yem Botu Atölyesi Denizli",
-  description: "2005'ten bu yana Denizli'de el yapımı yem botu üretiyoruz. Her bot tek tek, yüksek kalite malzemelerle inşa edilir.",
+  description: "Denizli'de el yapımı yem botu üretiyoruz. Her bot tek tek, yüksek kalite malzemelerle inşa edilir.",
 };
 
 const degerler = [

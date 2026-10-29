@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import WindMark from "./WindMark";
 import SocialLinks from "./SocialLinks";
+import { COMPANY } from "@/lib/company";
 
 function TroyLogo() {
   return (
@@ -74,9 +75,22 @@ export default function SiteFooter() {
           </div>
           <div>
             <p className="site-footer__head">Yasal</p>
+            <Link href="/on-bilgilendirme">Ön Bilgilendirme Formu</Link>
+            <Link href="/mesafeli-satis">Mesafeli Satış Sözleşmesi</Link>
             <Link href="/teslimat-ve-iade">Teslimat ve İade</Link>
             <Link href="/gizlilik">Gizlilik Politikası</Link>
-            <Link href="/mesafeli-satis">Mesafeli Satış</Link>
+            <Link href="/kvkk-aydinlatma">KVKK Aydınlatma Metni</Link>
+            <Link href="/cerez-politikasi">Çerez Politikası</Link>
+          </div>
+          <div>
+            <p className="site-footer__head">Satıcı</p>
+            <p style={{ fontSize: "0.8rem", lineHeight: 1.5, opacity: 0.7 }}>
+              {COMPANY.SATICI_UNVAN}<br />
+              {COMPANY.ADRES}<br />
+              VKN: {COMPANY.VKN}<br />
+              {COMPANY.TELEFON}<br />
+              <a href={`mailto:${COMPANY.EPOSTA}`}>{COMPANY.EPOSTA}</a>
+            </p>
           </div>
         </div>
       </div>
@@ -92,7 +106,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="wrap site-footer__base">
-        <span>© {new Date().getFullYear()} VELA Atölye</span>
+        <span>© {new Date().getFullYear()} {COMPANY.SATICI_UNVAN}</span>
         <span>El yapımı · Sınırlı sayıda</span>
       </div>
     </footer>

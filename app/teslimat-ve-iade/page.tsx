@@ -1,5 +1,7 @@
+import { COMPANY } from "@/lib/company";
+
 export const metadata = {
-  title: "Teslimat ve İade — VELA Atölye",
+  title: "Teslimat ve İade — VELA Yem Botu",
   robots: { index: false },
 };
 
@@ -9,52 +11,62 @@ export default function TeslimatVeIadePage() {
       <header className="legal-page__head">
         <p className="eyebrow">Yasal</p>
         <h1>Teslimat ve İade Şartları</h1>
-        <p className="legal-page__meta">Son güncelleme: Eylül 2026</p>
+        <p className="legal-page__meta">Son güncelleme: Ekim 2026 · Sürüm 2.0</p>
       </header>
 
       <div className="legal-page__body">
-        <h2>1. Üretim ve Teslimat Süresi</h2>
+        <h2>1. Kargoya Teslim Süresi</h2>
         <p>
-          VELA tekneleri sipariş üzerine, el ile üretilir. Üretim süresi sipariş
-          tarihinden itibaren <strong>8–16 haftadır</strong>; mevcut yoğunluğa göre
-          değişebilir. Kesin teslimat haftası sipariş onayı sırasında tarafınıza
-          bildirilir.
-        </p>
-        <p>
-          Teslimat Türkiye genelinde kargo yoluyla gerçekleştirilir. Kargo ücreti
-          sipariş tutarına dahildir. Yurt dışı teslimat için lütfen bizimle
-          iletişime geçin.
+          Sipariş ve ödeme onayından itibaren <strong>{COMPANY.KARGO_SURESI_IS_GUNU} iş günü</strong>{" "}
+          içinde ürün {COMPANY.KARGO_FIRMASI} aracılığıyla kargoya verilir.
+          Teslimat her halükarda 30 günü geçmez. Kargo Türkiye genelinde{" "}
+          <strong>ücretsizdir.</strong>
         </p>
 
         <h2>2. Ürünün Teslim Alınması</h2>
         <p>
           Kargo teslimi sırasında ürünü açarak kontrol etmenizi öneririz. Kargoya
-          bağlı hasar, teslimat anında tutanak tutularak bildirilmelidir.
+          bağlı herhangi bir hasar durumunda teslim anında tutanak tutularak kargo
+          firmasına bildiriniz.
         </p>
 
-        <h2>3. Cayma Hakkı ve İade</h2>
+        <h2>3. 14 Günlük Cayma Hakkı ve İade</h2>
         <p>
-          Ürünlerimiz, müşteri talebi doğrultusunda kişiye özel üretilmektedir.
-          Bu nedenle <strong>Mesafeli Sözleşmeler Yönetmeliği Madde 15/1-(c)</strong>
-          hükmü uyarınca, üretimi tamamlanmış siparişler için cayma hakkı ve iade
-          uygulanmamaktadır.
+          Teslim tarihinden itibaren <strong>14 gün</strong> içinde herhangi bir gerekçe
+          göstermeksizin sözleşmeden cayabilirsiniz.
         </p>
+        <p><strong>İade adımları:</strong></p>
+        <ol>
+          <li>
+            Cayma bildiriminizi e-posta ({COMPANY.EPOSTA}), WhatsApp ({COMPANY.WHATSAPP})
+            veya posta yoluyla ({COMPANY.ADRES}) yapın.
+          </li>
+          <li>
+            Ürünü {COMPANY.KARGO_FIRMASI} aracılığıyla <strong>ücretsiz</strong> olarak
+            bize gönderin.
+          </li>
+          <li>Ürün tarafımıza ulaştıktan sonra kontrol edilir.</li>
+          <li>
+            Onayın ardından 14 gün içinde ödemeniz, kullandığınız ödeme aracıyla
+            iade edilir.
+          </li>
+        </ol>
         <p>
-          Üretim başlamadan önce yapılan iptal taleplerinde alınan kapora iade
-          edilir. Üretim başladıktan sonraki iptal taleplerinde kapora iadesi
-          yapılmaz.
+          Ürünün, teslim alındığı günden cayma bildirim tarihine kadar normal
+          kullanımın ötesinde kullanılmasından kaynaklanan değer kaybı tarafınıza
+          yansıtılabilir.
         </p>
 
-        <h2>4. Garanti ve Arıza</h2>
+        <h2>4. Garanti ve Servis</h2>
         <p>
-          Ürünlerimiz teslimden itibaren <strong>1 yıl</strong> atölye garantisi
-          kapsamındadır. Üretim kaynaklı arızalar ücretsiz olarak giderilir.
-          Kullanım hatası, kaza veya dış etkenlerden kaynaklanan hasarlar garanti
-          kapsamı dışındadır.
+          Ürünlerimiz teslimden itibaren <strong>{COMPANY.GARANTI_SURESI}</strong>{" "}
+          üretim kaynaklı arızalara karşı garantilidir. Üretim kaynaklı arızalar
+          ücretsiz olarak giderilir. Kullanım hatası, kaza veya dış etkenlerden
+          kaynaklanan hasarlar garanti kapsamı dışındadır.
         </p>
         <p>
           Garanti ve servis talepleri için{" "}
-          <a href="mailto:info@velayembotu.com">info@velayembotu.com</a> adresine
+          <a href={`mailto:${COMPANY.EPOSTA}`}>{COMPANY.EPOSTA}</a> adresine
           yazabilir ya da WhatsApp üzerinden ulaşabilirsiniz.
         </p>
       </div>

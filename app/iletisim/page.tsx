@@ -1,8 +1,9 @@
 import ContactForm from "../components/ContactForm";
 import SocialLinks from "../components/SocialLinks";
+import { COMPANY } from "@/lib/company";
 
 export const metadata = {
-  title: "İletişim — VELA Atölye",
+  title: "İletişim — VELA Yem Botu",
   description: "Atölyemizle iletişime geçin.",
 };
 
@@ -18,8 +19,16 @@ export default function IletisimPage() {
             Ustalarımız size dönecek.
           </p>
           <div className="contact__detail">
-            <p><span>Atölye</span>Denizli, Türkiye</p>
-            <p><span>E-posta</span>info@velayembotu.com</p>
+            <p><span>Ünvan</span>{COMPANY.SATICI_UNVAN}</p>
+            <p><span>Adres</span>{COMPANY.ADRES}</p>
+            <p><span>Vergi Dairesi / VKN</span>{COMPANY.VERGI_DAIRESI} / {COMPANY.VKN}</p>
+            {COMPANY.MERSIS_NO && (
+              <p><span>MERSİS</span>{COMPANY.MERSIS_NO}</p>
+            )}
+            <p><span>Telefon</span>{COMPANY.TELEFON}</p>
+            <p><span>E-posta</span><a href={`mailto:${COMPANY.EPOSTA}`}>{COMPANY.EPOSTA}</a></p>
+            <p><span>WhatsApp</span>{COMPANY.WHATSAPP}</p>
+            <p><span>Çalışma Saatleri</span>{COMPANY.CALISMA_SAATLERI}</p>
           </div>
           <div className="contact__social-block">
             <p className="contact__social-label">Atölyeden canlı</p>

@@ -1,18 +1,50 @@
 "use client";
 
 import { useState } from "react";
-import PreorderModal from "./PreorderModal";
+import StokBildirimModal from "./PreorderModal";
 
-export default function BuyButton({ slug, preorder, productName }: { slug: string; preorder?: boolean; productName?: string }) {
+export default function BuyButton({
+  slug,
+  inStock,
+  productName,
+}: {
+  slug: string;
+  inStock?: boolean;
+  productName?: string;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  async function handleBuy() {
-    if (preorder) {
-      setShowModal(true);
-      return;
+  const preRegisterEnabled = process.env.NEXT_PUBLIC_PREREGISTER_ENABLED !== "false";
+
+  if (!inStock) {
+    if (preRegisterEnabled) {
+      return (
+        <>
+          <div className="buybox">
+            <button className="btn" onClick={() => setShowModal(true)}>
+              Stoğa Girince Haber Ver
+            </button>
+          </div>
+          {showModal && (
+            <StokBildirimModal
+              productName={productName ?? slug}
+              productSlug={slug}
+              onClose={() => setShowModal(false)}
+            />
+          )}
+        </>
+      );
     }
+    return (
+      <div className="buybox">
+        <p className="buybox__unavailable">Şu an stokta yok.</p>
+      </div>
+    );
+  }
+
+  async function handleBuy() {
     setLoading(true);
     setError(null);
     try {
@@ -35,20 +67,11 @@ export default function BuyButton({ slug, preorder, productName }: { slug: strin
   }
 
   return (
-    <>
-      <div className="buybox">
-        <button className="btn" onClick={handleBuy} disabled={loading}>
-          {loading ? "Yönlendiriliyor…" : preorder ? "Ön Sipariş Ver" : "Satın Al"}
-        </button>
-        {error && <p className="buybox__error">{error}</p>}
-      </div>
-      {showModal && (
-        <PreorderModal
-          productName={productName ?? slug}
-          productSlug={slug}
-          onClose={() => setShowModal(false)}
-        />
-      )}
-    </>
+    <div className="buybox">
+      <button className="btn" onClick={handleBuy} disabled={loading}>
+        {loading ? "Yönlendiriliyor…" : "Satın Al"}
+      </button>
+      {error && <p className="buybox__error">{error}</p>}
+    </div>
   );
 }

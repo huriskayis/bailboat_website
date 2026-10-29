@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, products, formatPrice } from "@/lib/products";
+import { COMPANY } from "@/lib/company";
 import ImagePanel from "../../components/ImagePanel";
 import MediaCarousel from "../../components/MediaCarousel";
 import BuyButton from "../../components/BuyButton";
-import DeliveryCalendar from "../../components/DeliveryCalendar";
 import WindMark from "../../components/WindMark";
 
 export function generateStaticParams() {
@@ -19,7 +19,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const p = getProduct(slug);
   return {
-    title: p ? `${p.name} — VELA Atölye` : "VELA Atölye",
+    title: p ? `${p.name} — ${COMPANY.MARKA}` : COMPANY.MARKA,
     description: p?.tagline,
   };
 }
@@ -36,8 +36,31 @@ export default async function ProductPage({
   const p = getProduct(slug);
   if (!p) notFound();
 
+  const priceTL = p.priceCents / 100;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.name,
+    description: p.tagline,
+    brand: { "@type": "Brand", name: COMPANY.MARKA },
+    offers: {
+      "@type": "Offer",
+      price: priceTL,
+      priceCurrency: "TRY",
+      availability: p.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      seller: { "@type": "Organization", name: COMPANY.SATICI_UNVAN },
+    },
+  };
+
   return (
     <article className="detail">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <div className="wrap">
         <nav className="crumb" aria-label="Konum">
           <Link href="/koleksiyon">Koleksiyon</Link>
@@ -47,22 +70,12 @@ export default async function ProductPage({
 
         {durum === "basarili" && (
           <div className="banner banner--ok">
-            Talebiniz alındı. Atölyemiz kısa süre içinde sizinle iletişime geçecek.
-          </div>
-        )}
-        {durum === "kapora-alindi" && (
-          <div className="banner banner--ok">
-            Kapora ödemeniz alındı. Siparişiniz garantilenmiştir — en kısa sürede sizi arayacağız.
+            Siparişiniz alındı. Onay e-postası gönderildi.
           </div>
         )}
         {durum === "iptal" && (
           <div className="banner banner--muted">
             Ödeme tamamlanmadı. Dilediğiniz zaman yeniden deneyebilirsiniz.
-          </div>
-        )}
-        {durum === "kapora-hatasi" && (
-          <div className="banner banner--muted">
-            Kapora ödemesi tamamlanamadı. Lütfen tekrar deneyin veya bizimle iletişime geçin.
           </div>
         )}
 
@@ -85,24 +98,22 @@ export default async function ProductPage({
             <p className="detail__tagline">{p.tagline}</p>
 
             <div className="detail__price">
-              <span className="detail__price-label">Başlangıç fiyatı</span>
+              <span className="detail__price-label">Fiyat (KDV dahil)</span>
               <span className="detail__price-value">{formatPrice(p.priceCents)}</span>
             </div>
 
-            {p.deliverySchedule && (
-              <DeliveryCalendar schedule={p.deliverySchedule} />
+            {p.inStock && (
+              <p className="detail__stock-info">
+                {COMPANY.KARGO_SURESI_IS_GUNU} iş günü içinde kargoda · Ücretsiz kargo
+              </p>
             )}
 
-            <BuyButton slug={p.slug} preorder={p.preorder} productName={p.name} />
-            {p.preorder ? (
-              <p className="detail__hint--preorder">
-                Şimdi sadece iletişime geçin — ödeme teslimat öncesinde yapılır.
-              </p>
-            ) : (
-              <p className="detail__hint">
-                Ödeme güvenli olarak Stripe üzerinden gerçekleşir.
-              </p>
-            )}
+            <BuyButton slug={p.slug} inStock={p.inStock} productName={p.name} />
+
+            <p className="detail__hint">
+              <Link href="/teslimat-ve-iade">14 gün içinde koşulsuz iade</Link>
+              {p.inStock && " · iyzico güvenli ödeme"}
+            </p>
           </div>
         </div>
 

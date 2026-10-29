@@ -6,7 +6,7 @@ export const metadata = {
 const faqs = [
   {
     q: "Yem botu ile birlikte yedek batarya geliyor mu?",
-    a: 'Paket içeriğinde bir adet yüksek kapasiteli batarya yer almaktadır. Uzun süreli kullanımlar için yedek batarya ihtiyacınız olursa, sitemizdeki "Aksesuarlar" bölümünden kolaylıkla temin edebilirsiniz.',
+    a: "Paket içeriğinde bir adet yüksek kapasiteli batarya yer almaktadır. Yedek batarya ve parça talepleriniz için WhatsApp veya e-posta ile bize ulaşın.",
   },
   {
     q: "Yem botunu nasıl kontrol edebilirim? Kumandası var mı?",
@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "Yedek parça konusunda sorun yaşar mıyım?",
-    a: "Müşteri memnuniyetini önemsiyoruz. Batarya, pervane ve diğer tüm yedek parça ihtiyaçlarınız için sitemizdeki ilgili kategorileri ziyaret edebilirsiniz. İhtiyacınız olan her parça stoklarımızda düzenli olarak bulunmaktadır.",
+    a: "Yerli üretim olduğu için yedek parçaya erişimde belirsizlik yaşamazsınız. Batarya, pervane ve diğer parça talepleriniz için WhatsApp veya e-posta ile bize ulaşın.",
   },
   {
     q: "Yem botunu araç çakmaklığından şarj edebilir miyim?",
@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: "Botun kaç konum (nokta) hafızası var?",
-    a: "Yem botumuz gelişmiş GPS sistemi sayesinde 20 farklı konumu hafızasında tutabilir. İstediğiniz yemleme noktalarını uygulamaya kaydedebilir ve botunuzun tam olarak hedeflediğiniz koordinata hatasız gitmesini sağlayabilirsiniz.",
+    a: "Yem botumuz gelişmiş GPS sistemi sayesinde 30'dan fazla konumu hafızasında tutabilir. İstediğiniz yemleme noktalarını uygulamaya kaydedebilir ve botunuzun tam olarak hedeflediğiniz koordinata hatasız gitmesini sağlayabilirsiniz.",
   },
   {
     q: "Uygulama ve kullanım kılavuzu Türkçe mi?",
